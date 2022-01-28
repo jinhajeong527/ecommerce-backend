@@ -14,4 +14,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 public interface ProductRepository extends JpaRepository<Product,Long> {//Entity, Primary Key
     Page<Product> findByCategoryId(@RequestParam("id") Long id, Pageable pageable);
     //스프링은 select * from product where category_id=? 이 쿼리 실행할 것이다.
+
+    Page<Product> findByNameContaining(@RequestParam("name") String name, Pageable pageable);
+    //select * from product p where p.name like concat(’%’, :name , ‘%’) 와 유사 한 쿼리 실행할 것이다.
 }
