@@ -1,7 +1,9 @@
 package com.jjh.ecommerce.config;
 
-import com.jjh.ecommerce.entity.Product;
-import com.jjh.ecommerce.entity.ProductCategory;
+import com.jjh.ecommerce.dao.entity.Country;
+import com.jjh.ecommerce.dao.entity.Product;
+import com.jjh.ecommerce.dao.entity.ProductCategory;
+import com.jjh.ecommerce.dao.entity.State;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.rest.core.config.RepositoryRestConfiguration;
@@ -32,21 +34,23 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
 
         HttpMethod[] theUnsupportedActions = {HttpMethod.PUT, HttpMethod.POST, HttpMethod.DELETE};
 
-        //disable HTTP methods for Products: PUT, POST and DELETE
-        //GET Method만 working 할 것. So READ ONLY
-        config.getExposureConfiguration()
-                .forDomainType(Product.class)
-                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)))
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
-        //lock down those two repository to only make them read only..
-        config.getExposureConfiguration()
-                .forDomainType(ProductCategory.class)
-                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)))
-                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
+        //disable HTTP methods for Products: PUT, POST and DELETE, 즉 GET Method만 working 할 것. So READ ONLY
+        disableHttpMethods(Product.class, config, theUnsupportedActions);
+        disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
+        disableHttpMethods(Country.class, config, theUnsupportedActions);
+        disableHttpMethods(State.class, config, theUnsupportedActions);
 
         //call an internal helper method
         exposeIds(config);
     }
+
+    private void disableHttpMethods(Class theClass, RepositoryRestConfiguration config, HttpMethod[] theUnsupportedActions) {
+        config.getExposureConfiguration()
+                .forDomainType(theClass)
+                .withItemExposure(((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions)))
+                .withCollectionExposure((metdata, httpMethods) -> httpMethods.disable(theUnsupportedActions));
+    }
+
     private void exposeIds(RepositoryRestConfiguration config){
         //expose entity ids
 

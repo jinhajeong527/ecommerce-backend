@@ -1,4 +1,4 @@
-package com.jjh.ecommerce.entity;
+package com.jjh.ecommerce.dao.entity;
 
 
 import lombok.Getter;
