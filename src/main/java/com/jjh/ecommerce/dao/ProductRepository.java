@@ -4,13 +4,10 @@ import com.jjh.ecommerce.dao.entity.Product;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.data.rest.core.annotation.RepositoryRestResource;
 import org.springframework.web.bind.annotation.RequestParam;
 
-
-
-//accept calls from web browser scripts for this origin(protocol+hostname+port)
-@CrossOrigin("http://localhost:4200")
+@RepositoryRestResource
 public interface ProductRepository extends JpaRepository<Product,Long> {//Entity, Primary Key
     Page<Product> findByCategoryId(@RequestParam("id") Long id, Pageable pageable);
     //스프링은 select * from product where category_id=? 이 쿼리 실행할 것이다.
