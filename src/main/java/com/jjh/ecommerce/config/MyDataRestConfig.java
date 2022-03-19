@@ -1,9 +1,6 @@
 package com.jjh.ecommerce.config;
 
-import com.jjh.ecommerce.dao.entity.Country;
-import com.jjh.ecommerce.dao.entity.Product;
-import com.jjh.ecommerce.dao.entity.ProductCategory;
-import com.jjh.ecommerce.dao.entity.State;
+import com.jjh.ecommerce.dao.entity.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
@@ -42,6 +39,7 @@ public class MyDataRestConfig implements RepositoryRestConfigurer {
         disableHttpMethods(ProductCategory.class, config, theUnsupportedActions);
         disableHttpMethods(Country.class, config, theUnsupportedActions);
         disableHttpMethods(State.class, config, theUnsupportedActions);
+        disableHttpMethods(Order.class, config, theUnsupportedActions);
 
         //call an internal helper method
         exposeIds(config);
